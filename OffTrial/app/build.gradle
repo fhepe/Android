@@ -51,3 +51,7 @@ dependencies {
     implementation files('libs/ormlite-android-5.1.jar')
     implementation files('libs/ormlite-core-5.1.jar')
 }
+
+dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:+'
+}

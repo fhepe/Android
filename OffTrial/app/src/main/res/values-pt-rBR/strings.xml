@@ -5,4 +5,8 @@
     <string name="logout">Sair</string>
     <string name="edt_login">Entre com o login</string>
     <string name="edt_senha">Entre com a senha</string>
+    <string name="btn_salvar">Salvar</string>
+    <string name="btn_cancelar">Cancelar</string>
+    <string name="edt_nometrilheiro">Nome do trilheiro</string>
+    <string name="edt_idadetrilheiro">Idade do trilheiro</string>
 </resources>
