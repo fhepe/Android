@@ -9,7 +9,7 @@ public class Moto {
     @DatabaseField(generatedId = true)
     private Integer codigo;
     @DatabaseField(canBeNull = false)
-    private String descricao;
+    private String modelo;
     @DatabaseField(canBeNull = false)
     private String marca;
     @DatabaseField(canBeNull = false)
@@ -25,12 +25,12 @@ public class Moto {
         this.codigo = codigo;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getModelo() {
+        return modelo;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
     }
 
     public String getMarca() {
