@@ -4,6 +4,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -21,7 +22,7 @@
         </activity>
         <activity android:name=".ui.LoginActivity_" />
         <activity
-            android:name=".ui.PrincipalActivity"
+            android:name=".ui.PrincipalActivity_"
             android:label="@string/title_activity_principal"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.TrilheiroActivity_"></activity>

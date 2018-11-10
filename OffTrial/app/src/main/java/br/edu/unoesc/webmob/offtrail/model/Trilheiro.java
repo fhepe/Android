@@ -4,14 +4,16 @@ import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 @DatabaseTable
-public class Trilheiro {
+public class Trilheiro implements Serializable {
     @DatabaseField(generatedId = true)
     private Integer codigo;
     @DatabaseField(canBeNull = false)
     private String nome;
     @DatabaseField(canBeNull = false)
-    private String idade;
+    private Integer idade;
     @DatabaseField(foreign = true, foreignColumnName = "codigo")
     private Moto moto;
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
@@ -33,11 +35,11 @@ public class Trilheiro {
         this.nome = nome;
     }
 
-    public String getIdade() {
+    public Integer getIdade() {
         return idade;
     }
 
-    public void setIdade(String idade) {
+    public void setIdade(int idade) {
         this.idade = idade;
     }
 

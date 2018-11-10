@@ -4,8 +4,10 @@ package br.edu.unoesc.webmob.offtrail.model;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.Serializable;
+
 @DatabaseTable
-public class Moto {
+public class Moto implements Serializable {
     @DatabaseField(generatedId = true)
     private Integer codigo;
     @DatabaseField(canBeNull = false)
@@ -55,5 +57,10 @@ public class Moto {
 
     public void setCor(String cor) {
         this.cor = cor;
+    }
+
+    @Override
+    public String toString(){
+        return getModelo() + '-' + getCilindrada();
     }
 }

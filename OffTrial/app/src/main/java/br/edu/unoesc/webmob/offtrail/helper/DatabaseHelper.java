@@ -162,7 +162,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         List<Usuario> usuarios = null;
         try {
             usuarios = getUsuarioDao().queryBuilder().
-                    where().eq("login", login).
+                    where().eq("email", login).
                     and().eq("senha", senha).query();
         } catch (SQLException e) {
             e.printStackTrace();

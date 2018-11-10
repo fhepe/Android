@@ -53,7 +53,8 @@ public class LoginActivity extends AppCompatActivity {
         {
             Usuario u = dh.validaLogin(strLogin, strSenha);
             if (u != null) {
-                Intent itPrincipal = new Intent(this, PrincipalActivity.class);
+                Intent itPrincipal = new Intent(this, PrincipalActivity_.class);
+                itPrincipal.putExtra("usuario", u);
                 startActivity(itPrincipal);
                 finish();
             } else {
