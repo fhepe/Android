@@ -120,25 +120,56 @@ public class TrilheiroActivity extends AppCompatActivity {
     }
 
     public void salvar(View v) {
+        Trilheiro trilheiro = (Trilheiro) getIntent().getSerializableExtra("trilheiro");
+        if (trilheiro == null) {
+            inserir();
+        } else {
+            alterar();
+        }
+        finish();
+    }
+
+    public void inserir() {
         try {
-            Trilheiro t = new Trilheiro();
-            t.setNome(edtNomeTrilheiro.getText().toString());
-            t.setIdade(Integer.parseInt(edtIdadeTrilheiro.getText().toString()));
-            t.setMoto((Moto) spnMotos.getSelectedItem());
+            Trilheiro trilheiro = new Trilheiro();
+            trilheiro.setNome(edtNomeTrilheiro.getText().toString());
+            trilheiro.setIdade(Integer.parseInt(edtIdadeTrilheiro.getText().toString()));
+            trilheiro.setMoto((Moto) spnMotos.getSelectedItem());
             Bitmap bitmap = ((BitmapDrawable) imvFoto.getDrawable()).getBitmap();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            t.setFoto(baos.toByteArray());
+            trilheiro.setFoto(baos.toByteArray());
 
-            dh.getTrilheiroDao().create(t);
+            dh.getTrilheiroDao().create(trilheiro);
 
             GrupoTrilheiro gt = new GrupoTrilheiro();
-            gt.setTrilheiro(t);
+            gt.setTrilheiro(trilheiro);
             gt.setGrupo((Grupo) spnGrupos.getSelectedItem());
             gt.setDataCadastro(new Date());
             dh.getGrupoTrilheiroDao().create(gt);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-            finish();
+    public void alterar() {
+        try {
+            Trilheiro trilheiro = (Trilheiro) getIntent().getSerializableExtra("trilheiro");
+            trilheiro.setNome(edtNomeTrilheiro.getText().toString());
+            trilheiro.setIdade(Integer.parseInt(edtIdadeTrilheiro.getText().toString()));
+            trilheiro.setMoto((Moto) spnMotos.getSelectedItem());
+
+            Bitmap bitmap = ((BitmapDrawable) imvFoto.getDrawable()).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            trilheiro.setFoto(baos.toByteArray());
+
+            dh.getTrilheiroDao().update(trilheiro);
+
+            GrupoTrilheiro gt = new GrupoTrilheiro();
+            gt.setTrilheiro(trilheiro);
+            gt.setGrupo((Grupo) spnGrupos.getSelectedItem());
+            gt.setDataCadastro(new Date());
         } catch (SQLException e) {
             e.printStackTrace();
         }
