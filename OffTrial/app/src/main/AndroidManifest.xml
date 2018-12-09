@@ -30,7 +30,8 @@
             android:label="@string/title_activity_principal"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.TrilheiroActivity_" />
-        <activity android:name=".ui.SobreActivity_"></activity>
+        <activity android:name=".ui.PreferenciasActivity_"></activity>
+        <activity android:name=".ui.SobreActivity_"></activity>        
     </application>
 
 </manifest>

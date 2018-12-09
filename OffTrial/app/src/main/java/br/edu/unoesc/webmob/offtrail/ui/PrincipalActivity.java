@@ -61,6 +61,8 @@ public class PrincipalActivity extends AppCompatActivity implements NavigationVi
 
     ProgressDialog pd;
 
+    View v;
+
     @AfterViews
     public void inicializar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -88,10 +90,7 @@ public class PrincipalActivity extends AppCompatActivity implements NavigationVi
         Usuario u = (Usuario) getIntent().getSerializableExtra("usuario");
         Toast.makeText(this, "Seja bem-vindo " + u.getEmail() + "!", Toast.LENGTH_LONG).show();
 
-        View v = toolbar.getRootView();
-        v.setBackgroundColor(configuracao.cor().get());
-        Toast.makeText(this, configuracao.parametro().get(), Toast.LENGTH_LONG).show();
-
+        v = toolbar.getRootView();
         configuracao.edit().cor().put(Color.BLUE).apply();
 
         lstTrilheiros.setAdapter(trilheiroAdapter);
@@ -101,6 +100,8 @@ public class PrincipalActivity extends AppCompatActivity implements NavigationVi
     public void onResume() {
         super.onResume();
         atualizaListaTrilheiros();
+
+        v.setBackgroundColor(configuracao.cor().get());
     }
 
     public void atualizaListaTrilheiros() {
@@ -156,12 +157,20 @@ public class PrincipalActivity extends AppCompatActivity implements NavigationVi
             pd.show();
             consultarCidadePorNome();
         } else if (id == R.id.nav_preferencias) {
-            // TODO: (0,50) Implementar tela pra salvar preferências
+            Intent itPreferencias = new Intent(this, PreferenciasActivity_.class);
+            startActivityForResult(itPreferencias, 1);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    protected void onActivityResult(int codigo, int resultado, Intent i) {
+        Bundle params = i != null ? i.getExtras() : null;
+        if (params != null) {
+            configuracao.edit().cor().put(params.getInt("cor") ).apply();
+        }
     }
 
     @UiThread
