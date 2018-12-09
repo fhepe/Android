@@ -7,6 +7,7 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,10 +32,13 @@ import org.androidannotations.annotations.WindowFeature;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 import org.androidannotations.rest.spring.annotations.RestService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import br.edu.unoesc.webmob.offtrail.R;
 import br.edu.unoesc.webmob.offtrail.adapter.TrilheiroAdapter;
+import br.edu.unoesc.webmob.offtrail.helper.DatabaseHelper;
+import br.edu.unoesc.webmob.offtrail.model.Cidade;
 import br.edu.unoesc.webmob.offtrail.model.Usuario;
 import br.edu.unoesc.webmob.offtrail.rest.CidadeClient;
 import br.edu.unoesc.webmob.offtrail.rest.Endereco;
@@ -48,6 +52,8 @@ public class PrincipalActivity extends AppCompatActivity implements NavigationVi
     ListView lstTrilheiros;
     @Bean
     TrilheiroAdapter trilheiroAdapter;
+    @Bean
+    DatabaseHelper dh;
     @Pref
     Configuracao_ configuracao;
     @RestService
@@ -174,10 +180,28 @@ public class PrincipalActivity extends AppCompatActivity implements NavigationVi
 
     @Background(delay = 2000)
     public void consultarCidadePorNome() {
-        List<Endereco> e = cidadeClient.getEndereco("Maravilha");
+        List<Endereco> listaEndereco = cidadeClient.getEndereco("São");
 
-        if (e != null && e.size() > 0) {
-            mostrarResultado(e.get(0).toString());
+        try {
+            dh.getCidadeDao().delete(dh.getCidadeDao().queryForAll());
+        } catch (SQLException E) {
+            E.printStackTrace();
+        }
+
+        for (Endereco endereco : listaEndereco) {
+            Cidade cidade = new Cidade();
+            cidade.setNome(endereco.toString());
+
+            try {
+                dh.getCidadeDao().create(cidade);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (listaEndereco != null && listaEndereco.size() > 0) {
+            mostrarResultado("Sincronizado " + listaEndereco.size() + " cidades.");
+            pd.dismiss();
         }
     }
 }
