@@ -76,13 +76,6 @@ public class TrilheiroItemView extends LinearLayout {
 
                     dh.getTrilheiroDao().delete(trilheiro);
                     Toast.makeText(getContext(), "Trilheiro excluído com sucesso!",Toast.LENGTH_LONG).show();
-
-                    Intent itlPrincipal = new Intent(getContext(), PrincipalActivity_.class);
-                    itlPrincipal.
-
-                    getContext().startActivity(itCadastrarTrilheiro);
-                    itCadastrarTrilheiro.
-
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
