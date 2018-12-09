@@ -87,6 +87,8 @@ public class PrincipalActivity extends AppCompatActivity implements NavigationVi
         Toast.makeText(this, configuracao.parametro().get(), Toast.LENGTH_LONG).show();
 
         configuracao.edit().cor().put(Color.BLUE).apply();
+
+        lstTrilheiros.setAdapter(trilheiroAdapter);
     }
 
     @Override
@@ -96,7 +98,9 @@ public class PrincipalActivity extends AppCompatActivity implements NavigationVi
     }
 
     public void atualizaListaTrilheiros() {
-        lstTrilheiros.setAdapter(trilheiroAdapter);
+        TrilheiroAdapter trilheiro = (TrilheiroAdapter) lstTrilheiros.getAdapter();
+        trilheiro.ordenarLista();
+        trilheiro.notifyDataSetChanged();
     }
 
     @Override

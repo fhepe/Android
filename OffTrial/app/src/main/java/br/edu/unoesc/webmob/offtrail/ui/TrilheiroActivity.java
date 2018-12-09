@@ -2,10 +2,12 @@ package br.edu.unoesc.webmob.offtrail.ui;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -33,10 +35,7 @@ import br.edu.unoesc.webmob.offtrail.model.GrupoTrilheiro;
 import br.edu.unoesc.webmob.offtrail.model.Moto;
 import br.edu.unoesc.webmob.offtrail.model.Trilheiro;
 
-
 @EActivity(R.layout.activity_trilheiro)
-@Fullscreen
-@WindowFeature(Window.FEATURE_NO_TITLE)
 public class TrilheiroActivity extends AppCompatActivity {
 
     @ViewById
@@ -52,6 +51,8 @@ public class TrilheiroActivity extends AppCompatActivity {
     @Bean
     DatabaseHelper dh;
 
+    Trilheiro trilheiro;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,29 +62,61 @@ public class TrilheiroActivity extends AppCompatActivity {
 
     @AfterViews
     public void inicializar() {
-        // cria o adapter
-        ArrayAdapter<Moto> motos = null;
         try {
-            motos = new ArrayAdapter<Moto>(this,
-                    android.R.layout.simple_spinner_item,
-                    dh.getMotoDao().queryForAll());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        // vincula o adaptar ao spinner
-        spnMotos.setAdapter(motos);
+            // cria o adapter
+            ArrayAdapter<Moto> motos = null;
+            try {
+                motos = new ArrayAdapter<Moto>(this,
+                        android.R.layout.simple_spinner_item,
+                        dh.getMotoDao().queryForAll());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            // vincula o adaptar ao spinner
+            spnMotos.setAdapter(motos);
 
-        // cria o adapter
-        ArrayAdapter<Grupo> grupos = null;
-        try {
-            grupos = new ArrayAdapter<Grupo>(this,
-                    android.R.layout.simple_spinner_item,
-                    dh.getGrupoDao().queryForAll());
+            // cria o adapter
+            ArrayAdapter<Grupo> grupos = null;
+            try {
+                grupos = new ArrayAdapter<Grupo>(this,
+                        android.R.layout.simple_spinner_item,
+                        dh.getGrupoDao().queryForAll());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            // vincula o adaptar ao spinner
+            spnGrupos.setAdapter(grupos);
+
+            trilheiro = (Trilheiro) getIntent().getSerializableExtra("trilheiro");
+            if (trilheiro != null) {
+                edtNomeTrilheiro.setText(trilheiro.getNome());
+                edtIdadeTrilheiro.setText(trilheiro.getIdade().toString());
+
+                for (int i = 0; i < spnMotos.getCount(); i++) {
+                    if (spnMotos.getItemAtPosition(i).toString().equals(trilheiro.getMoto().toString())) {
+                        spnMotos.setSelection(i);
+                    }
+                }
+
+                for (GrupoTrilheiro grupo : dh.getGrupoTrilheiroDao().queryForAll()) {
+                    if (grupo.getTrilheiro().getCodigo().equals(trilheiro.getCodigo())) {
+                        for (int i = 0; i < spnGrupos.getCount(); i++) {
+                            if (spnGrupos.getItemAtPosition(i).toString().equals(grupo.getGrupo().toString())) {
+                                spnGrupos.setSelection(i);
+                            }
+                        }
+                    }
+                }
+                byte[] myImage = trilheiro.getFoto();
+
+                Bitmap bmp = BitmapFactory.decodeByteArray(myImage, 0, myImage.length);
+                imvFoto.setImageBitmap(bmp);
+            }
+
         } catch (SQLException e) {
+            Log.e(Trilheiro.class.getName(), "Erro ao ler dados de Moto ou Grupo");
             e.printStackTrace();
         }
-        // vincula o adaptar ao spinner
-        spnGrupos.setAdapter(grupos);
     }
 
     public void salvar(View v) {

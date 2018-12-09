@@ -3,6 +3,7 @@ package br.edu.unoesc.webmob.offtrail.ui;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,6 +40,11 @@ public class TrilheiroItemView extends LinearLayout {
     public void editar() {
         // criar uma intent para chmar a tela de cadastro
         // nesta intent pasar o objeto Trilheiro
+
+        Intent itCadastrarTrilheiro = new Intent(getContext(), TrilheiroActivity_.class);
+        itCadastrarTrilheiro.putExtra("trilheiro", trilheiro);
+        getContext().startActivity(itCadastrarTrilheiro);
+
         Toast.makeText(getContext(), "Editar: " + trilheiro.getNome(), Toast.LENGTH_LONG).show();
     }
 
