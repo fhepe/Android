@@ -75,7 +75,12 @@ public class TrilheiroItemView extends LinearLayout {
                     }
 
                     dh.getTrilheiroDao().delete(trilheiro);
-                    Toast.makeText(getContext(), "Trilheiro excluído com sucesso!",Toast.LENGTH_LONG).show();
+
+                    Intent itCadastrarTrilheiro = new Intent(getContext(), TrilheiroActivity_.class);
+                    itCadastrarTrilheiro.putExtra("fechar", trilheiro);
+                    getContext().startActivity(itCadastrarTrilheiro);
+
+                    Toast.makeText(getContext(), "Trilheiro excluído com sucesso!", Toast.LENGTH_LONG).show();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -83,6 +88,7 @@ public class TrilheiroItemView extends LinearLayout {
         });
         dialogo.show();
     }
+
 
     public void bind(Trilheiro t) {
         trilheiro = t;

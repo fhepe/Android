@@ -175,6 +175,15 @@ public class TrilheiroActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Trilheiro trilheiro = (Trilheiro) getIntent().getSerializableExtra("fechar");
+        if (trilheiro != null) {
+            finish();
+        }
+    }
+
     public void cancelar(View v) {
         finish();
     }
