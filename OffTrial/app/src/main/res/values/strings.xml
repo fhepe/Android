@@ -15,4 +15,5 @@
     <string name="btn_cancelar">Cancel</string>
     <string name="edt_nometrilheiro">Tricycle name</string>
     <string name="edt_idadetrilheiro">Tricycle age</string>
+    <string name="edt_salvar_prefe">Alterar</string>
 </resources>
