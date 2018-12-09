@@ -63,8 +63,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
             // inserindo dados n base.
             Usuario u = new Usuario ();
-            u.setEmail("fhepe");
-            u.setSenha("fhepe");
+            u.setEmail("admin");
+            u.setSenha("admin");
             // insert
             getUsuarioDao().create(u);
 

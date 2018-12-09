@@ -16,4 +16,5 @@
     <string name="edt_nometrilheiro">Tricycle name</string>
     <string name="edt_idadetrilheiro">Tricycle age</string>
     <string name="edt_salvar_prefe">Alterar</string>
+    <string name="versao">Version 1.0</string>
 </resources>

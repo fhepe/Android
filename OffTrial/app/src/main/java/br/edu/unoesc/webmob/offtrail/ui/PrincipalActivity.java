@@ -136,7 +136,8 @@ public class PrincipalActivity extends AppCompatActivity implements NavigationVi
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent itSobre = new Intent(this, SobreActivity_.class);
+            startActivity(itSobre);
         }
 
         return super.onOptionsItemSelected(item);
