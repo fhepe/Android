@@ -10,15 +10,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
+import java.sql.SQLException;
+
 import br.edu.unoesc.webmob.offtrail.R;
+import br.edu.unoesc.webmob.offtrail.helper.DatabaseHelper;
+import br.edu.unoesc.webmob.offtrail.model.GrupoTrilheiro;
 import br.edu.unoesc.webmob.offtrail.model.Trilheiro;
 
 @EViewGroup(R.layout.lista_trilheiros)
 public class TrilheiroItemView extends LinearLayout {
+
+    @Bean
+    DatabaseHelper dh;
 
     @ViewById
     TextView txtNome;
@@ -50,19 +58,30 @@ public class TrilheiroItemView extends LinearLayout {
 
     @Click(R.id.imvExcluir)
     public void excluir() {
-//        Toast.makeText(getContext(), "Excluir: " + trilheiro.getNome(), Toast.LENGTH_LONG).show();
         AlertDialog.Builder dialogo = new AlertDialog.Builder(getContext());
 
         dialogo.setTitle("Exclusão");
-        dialogo.setMessage("Deseja realmente excluir? - " + trilheiro.getNome());
+        dialogo.setMessage("Deseja realmente excluir?");
         dialogo.setCancelable(false);
         dialogo.setNegativeButton("Não", null);
         dialogo.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                // TODO: Implementar exclusão
+                try {
+                    for (GrupoTrilheiro grupoTrilheiro : dh.getGrupoTrilheiroDao().queryForAll()) {
+                        if (grupoTrilheiro.getTrilheiro().getCodigo().equals(trilheiro.getCodigo())) {
+                            dh.getGrupoTrilheiroDao().delete(grupoTrilheiro);
+                        }
+                    }
+
+                    dh.getTrilheiroDao().delete(trilheiro);
+                    Toast.makeText(getContext(), "Trilheiro excluído com sucesso!",Toast.LENGTH_LONG).show();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         });
+        dialogo.show();
     }
 
     public void bind(Trilheiro t) {
